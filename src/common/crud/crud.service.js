@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { v4: uuidv4 } = require('uuid');
 class CRUDService {
 
   constructor(dao) {
@@ -18,6 +19,9 @@ class CRUDService {
   };
 
   save = async function (row) {
+    row.is_deleted = false;
+    //TODO manage created by properly
+    row.created_by = uuidv4();
     const createdRow = await this.dao.create(this.makeWritable(row));
     createdRow.dataValues = this.makeReadable(createdRow.dataValues);
     return createdRow;
