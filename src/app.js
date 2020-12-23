@@ -1,5 +1,7 @@
 const express = require('express');
 const Router = require('./core/router');
+const validateToken = require('./core/middleware/validate-token');
+const handleError = require('./core/middleware/error-handler');
 
 const app = express();
 var router = express.Router();
@@ -10,15 +12,9 @@ app.use(cors())
 
 app.use(express.json())
 
+app.use(validateToken);
 
-// router.use(function (req, res, next) {
-//   console.log(res);
-//   next();
-// })
-
-// app.use(router);
-
-// app.use(ResponseFormatter)
+app.use(handleError);
 
 //Use all middle before this line. Middle ware aren't working below this line
 Router.routeConfig(app);
